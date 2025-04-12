@@ -4,6 +4,7 @@
 */
 
 #include "mmap_aux.h"
+#include "defer.h"
 
 #include <fcntl.h>
 #include <sys/mman.h>
@@ -14,6 +15,18 @@ namespace logger {
   bool MmapAux::TryMap_(size_t capacity) {
     // 以读写方式打开一个文件，若不存在则创建，并指定权限为 R W X
     int fd = open(file_path_.string().c_str(), O_RDWR | O_CREAT, S_IRWXU);
+    LOG_DEFER {
+      if (fd != -1) {
+        close(fd);
+      }
+    };
+    // 等价于
+    // logger::ExecuteOnScopeExit defer([&](){
+    //   if (fd != -1) {
+    //     close(fd);
+    //   }
+    // });
+
     if (fd == -1) {
       return false;
     } else {
