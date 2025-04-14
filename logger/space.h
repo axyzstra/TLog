@@ -15,8 +15,8 @@ namespace logger {
   /// @return 
   template <typename _ToSpace, typename _Rep, typename _Capacity>
   constexpr _ToSpace space_cast(const space<_Rep, _Capacity> &__d) {
-    auto __r = __d.count() * std::ratio_divide<_Capacity, _ToSpace::capacity>::num / 
-                std::ratio_divide<_Capacity, _ToSpace::capacity>::den;
+    auto __r = __d.count() * std::ratio_divide<_Capacity, typename _ToSpace::capacity>::num / 
+                std::ratio_divide<_Capacity, typename _ToSpace::capacity>::den;
     return _ToSpace(__r);
   }
 
@@ -102,12 +102,12 @@ namespace logger {
 
   template <typename _Rep, typename _Capacity>
   constexpr space<_Rep, _Capacity> operator+(const space<_Rep, _Capacity>& __x, const space<_Rep, _Capacity>& __y) {
-    return space<_Rep, _Capacity>(__x.count() + _y.count());
+    return space<_Rep, _Capacity>(__x.count() + __y.count());
   }
 
   template <typename _Rep, typename _Capacity>
   constexpr space<_Rep, _Capacity> operator-(const space<_Rep, _Capacity>& __x, const space<_Rep, _Capacity>& __y) {
-    return space<_Rep, _Capacity>(__x.count() - _y.count);
+    return space<_Rep, _Capacity>(__x.count() - __y.count);
   }
 
   using kilo = std::ratio<1024L, 1>;
