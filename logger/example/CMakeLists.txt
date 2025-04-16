@@ -10,15 +10,31 @@
 
 # add_executable(app main.cc ${MMAP_SRCS} ${UTIL_SRCS})
 
+# ==========================================
+
+# cmake_minimum_required(VERSION 3.20)
+# project(test)
+
+# # 查找 GoogleTest
+# find_package(GTest REQUIRED)
+# include_directories(../)
+
+# # 添加测试可执行文件
+# add_executable(test test_msg.cc)
+
+# # 链接库
+# target_link_libraries(test GTest::gtest_main)
+
+
+# ============================================
+
 cmake_minimum_required(VERSION 3.20)
 project(test)
 
-# 查找 GoogleTest
-find_package(GTest REQUIRED)
+find_package(fmt REQUIRED)
+
+add_definitions(-DENABLE_LOG)
 include_directories(../)
+add_executable(test test.cc)
 
-# 添加测试可执行文件
-add_executable(test test_msg.cc)
-
-# 链接库
-target_link_libraries(test GTest::gtest_main)
+target_link_libraries(test fmt::fmt)
