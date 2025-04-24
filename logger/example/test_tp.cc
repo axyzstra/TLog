@@ -15,5 +15,15 @@ int main() {
     });
   }
 
+  std::cout << "------------------------" << std::endl;
+
+  for (size_t i = 0; i < 10; i++) {
+    auto future = pool.RunRetTask([i](){
+      std::cout << std::this_thread::get_id() << ": 执行-->" << i << std::endl;
+      return i;
+    });
+    std::cout << "返回值：" << future->get() << std::endl;
+  }
+
   return 0;
 }

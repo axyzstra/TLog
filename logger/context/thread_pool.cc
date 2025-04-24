@@ -8,39 +8,28 @@ namespace logger {
   }
 
   void ThreadPool::AddThread() {
-    // 新增线程的逻辑，循环查看任务队列，若有任务则拿出来执行
     auto call = [this]() {
       Task task;
       while (true) {
-        // lock
         {
           std::unique_lock<std::mutex> lock(task_mutex_);
-          // 若线程池关闭或任务队列为空则阻塞
-          this->task_cv_.wait(lock, [this]() {
-            return this->is_shutdown_ || !this->tasks_.empty();
+          // 任务队列不为空时解除阻塞 需要关闭线程池时解除阻塞
+          task_cv_.wait(lock, [this]() {
+            return !this->tasks_.empty() || this->is_shutdown_.load();
           });
-          if (this->is_shutdown_) {
-            break;
-          }
-          if (this->tasks_.empty()) {
-            break;
+          // 若是因为关闭线程池解除的阻塞，直接结束任务
+          if (this->is_shutdown_.load()) {
+            return;
           }
           task = std::move(this->tasks_.front());
           this->tasks_.pop();
-        } // lock
-        if (task) {
-          try {
-            task();
-          } catch (const std::exception& e) {
-            std::cout << "出现异常:" << e.what() << std::endl;
-          }
         }
+        task();
       }
     };
-    // 创建线程执行以上任务
     ThreadInfoPtr info_ptr = std::make_shared<ThreadInfo>();
     info_ptr->ptr = std::make_shared<std::thread>(call);
-    this->worker_threads_.emplace_back(std::move(info_ptr));
+    this->worker_threads_.emplace_back(info_ptr);
   }
 
   bool ThreadPool::Start() {

@@ -40,14 +40,10 @@ namespace logger {
         auto task = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
         {
           std::lock_guard<std::mutex> lock(task_mutex_);
-          tasks_.emplace([task](){
-            task();
-          });
+          tasks_.emplace(task);
         }
         task_cv_.notify_all();
       }
-
-
 
       template <typename F, typename... Args>
       auto RunRetTask(F&& f, Args&&... args) -> std::shared_ptr<std::future<decltype(f(args...))>> {
@@ -55,19 +51,21 @@ namespace logger {
         if (is_shutdown_.load() || !is_available_.load()) {
           return nullptr;
         }
+
         auto task = std::make_shared<std::packaged_task<RetType()>>(
           std::bind(std::forward<F>(f), std::forward<Args>(args)...)
         );
-        
-        std::future<RetType> res = task->get_future();
+
+        auto ret = task->get_future();
+
         {
-          std::lock_guard<std::mutex> lock(task_mutex_);
+          std::unique_lock<std::mutex> lock(task_mutex_);
           tasks_.emplace([task](){
             (*task)();
           });
         }
         task_cv_.notify_all();
-        return std::make_shared<std::future<RetType>>(std::move(res));
+        return std::make_shared<std::future<RetType>>(std::move(ret));
       }
 
 

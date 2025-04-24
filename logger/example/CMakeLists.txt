@@ -45,4 +45,8 @@ cmake_minimum_required(VERSION 3.20)
 project(test)
 
 include_directories(../context)
-add_executable(test test_tp.cc ../context/thread_pool.cc)
+add_executable(test test_con.cc
+                    ../context/thread_pool.cc
+                    ../context/executor.cc
+                    ../context/context.cc
+                    )
