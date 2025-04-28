@@ -19,7 +19,7 @@ namespace logger {
      LogFactory();
 
     private:
-      std::shared_ptr<VariadicLogHandle> log_handel_;
+      std::shared_ptr<VariadicLogHandle> log_handle_;
   };
 
 }
