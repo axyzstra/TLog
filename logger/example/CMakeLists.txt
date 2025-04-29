@@ -39,19 +39,37 @@
 
 # target_link_libraries(test fmt::fmt)
 
-# ==============test_tp cmake==============================
+# ==============cmake test_handle==============================
+
+# cmake_minimum_required(VERSION 3.20)
+# project(test)
+
+# include_directories(../formatter)
+# include_directories(../sinks)
+# include_directories(../utils)
+# include_directories(../)
+# add_executable(test test_handle.cc
+#                     ../formatter/default_formatter.cc
+#                     ../sinks/console_sink.cc
+#                     ../log_handle.cc
+#                     ../utils/sys_util_linux.cc
+#                     ../log_msg.cc
+#                     )
+
+
+# ==============cmake test_compress==============================
 
 cmake_minimum_required(VERSION 3.20)
 project(test)
 
-include_directories(../formatter)
-include_directories(../sinks)
-include_directories(../utils)
+find_package(ZLIB REQUIRED)
+# find_package(zstd CONFIG REQUIRED)
+
+include_directories(../compress)
 include_directories(../)
-add_executable(test test_handle.cc
-                    ../formatter/default_formatter.cc
-                    ../sinks/console_sink.cc
-                    ../log_handle.cc
-                    ../utils/sys_util_linux.cc
-                    ../log_msg.cc
+add_executable(test test_compress.cc
+                    ../compress/zlib_compress.cc
+                    # ../compress/zstd_compress.cc
                     )
+target_link_libraries(test PRIVATE ZLIB::ZLIB)
+# target_link_libraries(test PRIVATE zstd::libzstd)
