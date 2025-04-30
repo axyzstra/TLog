@@ -13,6 +13,6 @@ VariadicLogHandle* LogFactory::GetLogHandle() {
 }
 
 void LogFactory::SetLogHandle(std::shared_ptr<VariadicLogHandle> log_handle) {
-  log_handle_ = log_handle_;
+  log_handle_ = log_handle;
 }
 }  // namespace logger
