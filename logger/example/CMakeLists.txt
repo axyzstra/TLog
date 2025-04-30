@@ -59,17 +59,38 @@
 
 # ==============cmake test_compress==============================
 
+# cmake_minimum_required(VERSION 3.20)
+# project(test)
+
+# find_package(ZLIB REQUIRED)
+# # find_package(zstd CONFIG REQUIRED)
+
+# include_directories(../compress)
+# include_directories(../)
+# add_executable(test test_compress.cc
+#                     ../compress/zlib_compress.cc
+#                     # ../compress/zstd_compress.cc
+#                     )
+# target_link_libraries(test PRIVATE ZLIB::ZLIB)
+# # target_link_libraries(test PRIVATE zstd::libzstd)
+
+
+
+# ==============cmake test_crypt==============================
+
 cmake_minimum_required(VERSION 3.20)
 project(test)
 
-find_package(ZLIB REQUIRED)
-# find_package(zstd CONFIG REQUIRED)
+# find_package(OpenSSL REQUIRED)
+find_package(cryptopp CONFIG REQUIRED)
 
-include_directories(../compress)
+include_directories(../crypt)
 include_directories(../)
-add_executable(test test_compress.cc
-                    ../compress/zlib_compress.cc
-                    # ../compress/zstd_compress.cc
+add_executable(test test_crypt.cc
+                    ../crypt/aes_crypt.cc
+                    ../crypt/crypt.cc
                     )
-target_link_libraries(test PRIVATE ZLIB::ZLIB)
-# target_link_libraries(test PRIVATE zstd::libzstd)
+
+target_link_libraries(test PRIVATE cryptopp::cryptopp)                 
+# target_link_libraries(test PRIVATE OpenSSL::SSL)
+# target_link_libraries(test PRIVATE OpenSSL::Crypto)
