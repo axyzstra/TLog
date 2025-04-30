@@ -1,11 +1,10 @@
 #include <memory>
 
-
-#include "sink.h"
 #include "console_sink.h"
-#include "formatter.h"
 #include "default_formatter.h"
+#include "formatter.h"
 #include "log_handle.h"
+#include "sink.h"
 
 int main() {
   std::shared_ptr<logger::LogSink> sink = std::make_shared<logger::ConsoleSink>();

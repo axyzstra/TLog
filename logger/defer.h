@@ -3,28 +3,26 @@
 #include <functional>
 
 namespace logger {
-  class ExecuteOnScopeExit {
-  public:
+class ExecuteOnScopeExit {
+ public:
+  ExecuteOnScopeExit(const ExecuteOnScopeExit&) = delete;
+  ExecuteOnScopeExit& operator=(const ExecuteOnScopeExit&) = delete;
 
-    ExecuteOnScopeExit(const ExecuteOnScopeExit&) = delete;
-    ExecuteOnScopeExit& operator=(const ExecuteOnScopeExit&) = delete;
+  template <typename F, typename... Args>
+  ExecuteOnScopeExit(F&& f, Args&&... args) {
+    func = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
+  }
 
-    template <typename F, typename... Args>
-    ExecuteOnScopeExit(F&& f, Args&&... args) {
-      func = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
+  ~ExecuteOnScopeExit() noexcept {
+    if (func_) {
+      func_();
     }
+  }
 
-    ~ExecuteOnScopeExit() noexcept {
-      if (func_) {
-        func_();
-      }
-    }
-
-  private:
-    std::function<void()> func_;
-  };
+ private:
+  std::function<void()> func_;
 };
-
+};  // namespace logger
 
 #define _MAKE_DEFER_(line) logger::ExecuteOnScopeExit defer##line = [&]()
 

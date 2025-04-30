@@ -1,7 +1,6 @@
-#include <iostream>
 #include <cstring>
+#include <iostream>
 #include "aes_crypt.h"
-
 
 int main() {
   logger::crypt::AESCrypt aes("0123456789abcdef");

@@ -3,23 +3,23 @@
 #include <memory>
 
 namespace logger {
-  class VariadicLogHandle;
+class VariadicLogHandle;
 
-  class LogFactory {
-    public:
-      LogFactory(const LogFactory&) = delete;
-      LogFactory& operator=(const LogFactory&) = delete;
+class LogFactory {
+ public:
+  LogFactory(const LogFactory&) = delete;
+  LogFactory& operator=(const LogFactory&) = delete;
 
-      static LogFactory& Instance();
-      VariadicLogHandle* GetLogHandle();
+  static LogFactory& Instance();
+  VariadicLogHandle* GetLogHandle();
 
-      void SetLogHandle(std::shared_ptr<VariadicLogHandle> log_handle);
+  void SetLogHandle(std::shared_ptr<VariadicLogHandle> log_handle);
 
-    private:
-     LogFactory();
+ private:
+  LogFactory();
 
-    private:
-      std::shared_ptr<VariadicLogHandle> log_handle_;
-  };
+ private:
+  std::shared_ptr<VariadicLogHandle> log_handle_;
+};
 
-}
+}  // namespace logger

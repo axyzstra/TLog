@@ -1,6 +1,6 @@
 #include <iostream>
-#include "sys_util.h"
 #include "file_util.h"
+#include "sys_util.h"
 
 int main() {
   std::cout << GetPageSize() << std::endl;

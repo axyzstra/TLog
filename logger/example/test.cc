@@ -1,5 +1,5 @@
-#include "internal_log.h"
 #include <iostream>
+#include "internal_log.h"
 
 int main() {
   int key = 42;
@@ -9,4 +9,3 @@ int main() {
 
   return 0;
 }
-

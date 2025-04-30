@@ -14,7 +14,6 @@ size_t GetProcessId() {
   return static_cast<size_t>(::getpid());
 }
 
-
 size_t GetThreadId() {
   return static_cast<size_t>(::gettid());
 }

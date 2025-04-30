@@ -4,8 +4,8 @@
 #include <filesystem>
 
 namespace logger {
-  namespace fs {
-    using fpath = std::filesystem::path;
-    size_t GetFileSize(const fpath& file_path);
-  };
-}
+namespace fs {
+using fpath = std::filesystem::path;
+size_t GetFileSize(const fpath& file_path);
+};  // namespace fs
+}  // namespace logger
