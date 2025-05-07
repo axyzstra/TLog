@@ -1,6 +1,7 @@
 #include "mmap_aux.h"
 
 #include <string.h>
+#include <fstream>
 #include "file_util.h"
 #include "sys_util.h"
 
@@ -8,6 +9,11 @@ namespace logger {
 // mmap 映射内存初始大小，避免多次扩容
 static constexpr size_t kDefaultCapacity = 512 * 1024;
 MmapAux::MmapAux(fpath file_path) : file_path_(std::move(file_path)), handle_(nullptr), capacity_(0) {
+  if (!std::filesystem::exists(file_path_)) {
+    std::filesystem::create_directories(file_path_.parent_path());
+    std::ofstream ofs(file_path_, std::ios::out | std::ios::binary);
+    ofs.close();
+  }
   size_t file_size = fs::GetFileSize(file_path_);
   size_t dst_size = std::max(file_size + sizeof(MmapHeader), kDefaultCapacity);
   Reserve_(dst_size);
