@@ -15,7 +15,8 @@ int main() {
   logger::LogHandle handle({effective_sink});
 
   auto begin = std::chrono::system_clock::now();
-  logger::SourceLocation srcLoc("test_sink.cc", 18, "main");
+  // logger::SourceLocation srcLoc("test_sink.cc", 18, "main");
+  logger::SourceLocation srcLoc(__FILE__, __LINE__, __func__);
   for (int i = 0; i < 1000000; ++i) {
     std::string str = "hello";
     handle.Log(logger::LogLevel::kInfo, srcLoc, str);
