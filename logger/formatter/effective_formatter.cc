@@ -12,9 +12,9 @@ void EffectiveFormatter::Format(const LogMsg& msg, std::string* dest) {
   eff_msg.set_pid(GetProcessId());
   eff_msg.set_tid(GetThreadId());
   eff_msg.set_line(msg.location.line);
-  eff_msg.set_file_name(msg.location.file_name.data());
-  eff_msg.set_func_name(msg.location.func_name.data());
-  eff_msg.set_log_info(msg.message.data());
+  eff_msg.set_file_name(msg.location.file_name.data(), msg.location.file_name.size());
+  eff_msg.set_func_name(msg.location.func_name.data(), msg.location.func_name.size());
+  eff_msg.set_log_info(msg.message.data(), msg.message.size());
   size_t len = eff_msg.ByteSizeLong();
   dest->resize(len);
   eff_msg.SerializeToArray(dest->data(), len);

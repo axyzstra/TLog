@@ -4,6 +4,7 @@ project(test)
 find_package(Protobuf CONFIG REQUIRED)
 find_package(zstd CONFIG REQUIRED)
 find_package(cryptopp CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 # 固定搭配，用于生成 .pb.h 和 .pb.cc
 set(PROTO_FILE ../proto/effective_msg.proto)
@@ -26,7 +27,7 @@ include_directories(
 
 
 add_executable(test
-  test_sink.cc
+  test_log_macro.cc
   ../compress/zstd_compress.cc
   ../context/context.cc 
   ../context/executor.cc 
@@ -42,6 +43,7 @@ add_executable(test
   ../log_handle.cc
   ../log_msg.cc
   ../log_handle.cc
+  ../log_factory.cc
   ${PROTO_SRCS} 
   ${PROTO_HDRS}
 )
@@ -51,4 +53,5 @@ target_link_libraries(test PRIVATE
                       protobuf::libprotobuf
                       zstd::libzstd
                       cryptopp::cryptopp
+                      fmt::fmt
 )
