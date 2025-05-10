@@ -25,6 +25,7 @@ include_directories(
   ../
 )
 
+add_definitions(-DENABLE_TIMING)
 
 add_executable(test
   test_log_macro.cc
