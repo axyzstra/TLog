@@ -129,7 +129,7 @@ std::vector<char> ReadFile(const std::string& input_file_path) {
 }
 
 int main() {
-  std::string input_file_path = "/home/axyz/usr/logger/logger/example/build/logger/loggerdemo_20250508181829.log";
+  std::string input_file_path = "/home/axyz/usr/logger/logger/example/build/logger/loggerdemo_20250516151845.log";
   std::string pri_key = "FAA5BBE9017C96BF641D19D0144661885E831B5DDF52539EF1AB4790C05E665E";
   std::filesystem::path path(input_file_path);
   std::string file_name = path.filename();

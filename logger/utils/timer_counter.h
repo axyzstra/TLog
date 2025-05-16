@@ -7,12 +7,14 @@
 namespace logger {
 class TimerCount {
  public:
-  TimerCount(std::string_view info) : info_(info), start_(std::chrono::steady_clock::now()) {}
+  TimerCount(std::string_view info) : info_(info), start_(std::chrono::steady_clock::now()) {
+    std::cout << "计时开始..." << std::endl;
+  }
   ~TimerCount() {
     auto end = std::chrono::steady_clock::now();
     auto diff = end - start_;
-    auto time_in_seconds = std::chrono::duration<double>(diff).count();
-    std::cout << info_ << ":" << time_in_seconds << " seconds" << std::endl;
+    auto time_in_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+    std::cout << info_ << ":" << time_in_milliseconds << " milliseconds" << std::endl;
   }
 
  private:
